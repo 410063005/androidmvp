@@ -1,13 +1,16 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-parcelize'
 android {
     compileSdkVersion 27
 
-
+    buildFeatures {
+        viewBinding true
+    }
 
     defaultConfig {
         applicationId "antonioleiva.com.appkotlin"
+        namespace "antonioleiva.com.appkotlin"
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
