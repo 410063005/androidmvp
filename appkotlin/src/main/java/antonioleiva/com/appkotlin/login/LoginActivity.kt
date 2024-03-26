@@ -5,22 +5,26 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import antonioleiva.com.appkotlin.R
+import antonioleiva.com.appkotlin.databinding.ActivityLoginBinding
 import antonioleiva.com.appkotlin.main.MainActivity
-import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity(), LoginView {
 
     private val presenter = LoginPresenter(this, LoginInteractor())
+    private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        // https://developer.android.com/topic/libraries/view-binding?hl=zh-cn#kotlin
+        binding = ActivityLoginBinding.inflate((layoutInflater))
+        val view = binding.root
+        setContentView(view)
 
-        button.setOnClickListener { validateCredentials() }
+        binding.button.setOnClickListener { validateCredentials() }
     }
 
     private fun validateCredentials() {
-        presenter.validateCredentials(username.text.toString(), password.text.toString())
+        presenter.validateCredentials(binding.username.text.toString(), binding.password.text.toString())
     }
 
     override fun onDestroy() {
@@ -29,19 +33,19 @@ class LoginActivity : AppCompatActivity(), LoginView {
     }
 
     override fun showProgress() {
-        progress.visibility = View.VISIBLE
+        binding.progress.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        progress.visibility = View.GONE
+        binding.progress.visibility = View.GONE
     }
 
     override fun setUsernameError() {
-        username.error = getString(R.string.username_error)
+        binding.username.error = getString(R.string.username_error)
     }
 
     override fun setPasswordError() {
-        password.error = getString(R.string.password_error)
+        binding.password.error = getString(R.string.password_error)
     }
 
     override fun navigateToHome() {

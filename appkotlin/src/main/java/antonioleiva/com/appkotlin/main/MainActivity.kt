@@ -4,16 +4,18 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
-import antonioleiva.com.appkotlin.R
-import kotlinx.android.synthetic.main.activity_main.*
+import antonioleiva.com.appkotlin.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), MainView {
 
     private val presenter = MainPresenter(this, FindItemsInteractor())
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate((layoutInflater))
+        val view = binding.root
+        setContentView(view)
     }
 
     override fun onResume() {
@@ -27,17 +29,17 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     override fun showProgress() {
-        progress.visibility = View.VISIBLE
-        list.visibility = View.GONE
+        binding.progress.visibility = View.VISIBLE
+        binding.list.visibility = View.GONE
     }
 
     override fun hideProgress() {
-        progress.visibility = View.GONE
-        list.visibility = View.VISIBLE
+        binding.progress.visibility = View.GONE
+        binding.list.visibility = View.VISIBLE
     }
 
     override fun setItems(items: List<String>) {
-        list.adapter = MainAdapter(items, presenter::onItemClicked)
+        binding.list.adapter = MainAdapter(items, presenter::onItemClicked)
     }
 
     override fun showMessage(message: String) {
